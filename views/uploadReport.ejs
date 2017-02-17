@@ -1,0 +1,284 @@
+﻿<!DOCTYPE HTML>
+<!--未加入Bootstrap的两行链接---->
+<html lang="en" xmlns="http://www.w3.org/1999/html" style="text-align: center">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>实验报告提交</title>
+    <!--------------------------------以下为模板的链接------------------------------------->
+    <link href="stylesheets/experNew.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="stylesheets/topStrip.css"  rel="stylesheet" type="text/css">
+    <link href="stylesheets/report.css"  rel="stylesheet" type="text/css">
+    <link href="stylesheets/bootstrap.css" rel="stylesheet" type="text/css">
+
+    <script src="/jquery/dist/jquery.js"></script>
+</head>
+
+<!--加上auto居中-->
+<body style = "margin:0 auto; width:1580px; text-align:left;">
+
+    <!-----顶部导航栏----->
+    <div id="top" align="center" style="background:url(./images/common/top.png); position: relative">
+
+        <li id="menuLesson" class="menu" style="margin-left: 700px">
+            <div style="height:55px; line-height:55px">课程简介</div>
+            <div class="list">
+                <a class="menuItem" href="#">超声波液位计验证实验</a>
+                <a class="menuItem" href="#">超声波流量计验证实验</a>
+                <a class="menuItem" href="#">涡街流量计综合实验</a>
+                <a class="menuItem" href="#">涡街流量计综合实验</a>
+                <a class="menuItem" href="#">超声波液位计综合实验</a>
+            </div>
+        </li>
+        <li id="menuExp" class="menu">
+            <div style="height:55px; line-height:55px">在线实验</div>
+            <div class="list">
+                <a class="menuItem" href="exper0" target="_blank">涡街流量计验证实验</a>
+                <a class="menuItem" href="#">超声波液位计验证实验</a>
+                <a class="menuItem" href="#">超声波流量计验证实验</a>
+                <a class="menuItem" href="#">涡街流量计综合实验</a>
+                <a class="menuItem" href="#">超声波液位计综合实验</a>
+                <a class="menuItem" href="#">超声波流量计综合实验</a>
+            </div>
+        </li>
+        <li id="menuReport" class="menu">
+            <div style="height:55px; line-height:55px">实验报告</div>
+            <div class="list">
+                <a class="menuItem" href="#">提交</a>
+                <a class="menuItem" href="#">查看</a>
+            </div>
+        </li>
+        <li class="menu">
+            <a href="#" style="height:55px; line-height:55px; color:#ffffff">个人信息</a>
+        </li>
+
+        <div id="userName">
+            <% if (locals.username) { %>
+            <a href="#" style="color: #ddd; font-size: 1em;">
+                <%= username %>
+            </a>
+            &nbsp;
+            <a href="/logout" style="color: #ddd; font-size: 1em;">安全退出</a>
+            <% } %>
+
+        </div>
+        <!-----回到主页链接--->
+        <a href="/" target="_blank">
+            <div align="center" style="position: absolute; left:200px; top:0px; width:350px; height:55px; z-index: 1000"></div>
+        </a>
+    </div>
+  <!----------------------------------------------以上为导航栏------------------------------------------------------->
+
+<div id="header" style = "background:url(./images/common/report.jpg) no-repeat center; margin:0 auto; width:1580px; height:500px; position: relative;"></div>
+<div class="courseb">
+<!--
+     <div class="navg">
+	   <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+		  <div class="btn-group" role="group">
+          <button id="btnDropOne1" type="button" class="btn btn-default dropdown-toggle btn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">课程介绍<span class="caret"></span></button>
+		    <ul class="dropdown-menu" aria-labelledby="btnDropOne1">
+		      <li><a href="#">涡街流量计实验</a></li>
+		      <li><a href="#">超声波流量实验</a></li>
+              <li><a href="#">综合实验</a></li>
+		      <li><a href="#">超声波流量实验</a></li>
+	        </ul>
+	     </div>
+
+         <div class="btn-group" role="group">
+             <button id="btnDropOne1" type="button" class="btn btn-default dropdown-toggle btn-lg btn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">进入实验<span class="caret"></span></button>
+		    <ul class="dropdown-menu" aria-labelledby="btnDropOne1">
+		      <li><a href="#">Dropdown link 1</a></li>
+		      <li><a href="#">Dropdown link 2</a></li>
+              <li><a href="#">Dropdown link 1</a></li>
+		      <li><a href="#">Dropdown link 2</a></li>
+	        </ul>
+	     </div>
+
+           <div class="btn-group" role="group">
+               <button id="btnDropOne1" type="button" class="btn btn-default dropdown-toggle btn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">实验报告<span class="caret"></span></button>
+		    <ul class="dropdown-menu" aria-labelledby="btnDropOne1">
+		      <li><a href="#">Dropdown link 1</a></li>
+		      <li><a href="#">Dropdown link 2</a></li>
+               <li><a href="#">Dropdown link 1</a></li>
+		      <li><a href="#">Dropdown link 2</a></li>
+	        </ul>
+	     </div>
+
+           <div class="btn-group" role="group">
+               <button id="btnDropOne1" type="button" class="btn btn-default dropdown-toggle btn-lg" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                   成绩查询<span class="caret"></span>
+               </button>
+		    <ul class="dropdown-menu" aria-labelledby="btnDropOne1">
+		      <li><a href="#">Dropdown link 1</a></li>
+		      <li><a href="#">Dropdown link 2</a></li>
+	        </ul>
+	     </div>
+
+            <div class="btn-group" role="group">
+                <button id="btnDropOne1" type="button" class="btn btn-default dropdown-toggle btn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">预选课程<span class="caret"></span></button>
+		    <ul class="dropdown-menu" aria-labelledby="btnDropOne1">
+		      <li><a href="#">Dropdown link 1</a></li>
+		      <li><a href="#">Dropdown link 2</a></li>
+	        </ul>
+	     </div>
+
+            <div class="btn-group" role="group">
+                <button id="btnDropOne1" type="button" class="btn btn-default dropdown-toggle btn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">其他栏目<span class="caret"></span></button>
+		    <ul class="dropdown-menu" aria-labelledby="btnDropOne1">
+		      <li><a href="#">Dropdown link 1</a></li>
+		      <li><a href="#">Dropdown link 2</a></li>
+	        </ul>
+	     </div>
+	   </div>
+     </div>
+     --->
+<!----------------------------------------右边文字板块------------------------------------------------------------------------------------->
+     <div class="text_exper">
+      <div class="ziliao rBlock">
+          <div class="header1">
+          <img class="imgL" src="images/report/text.svg" width="261" height="150" alt="" />
+          <h4>实验资料</h4>
+           <img class="imgR" src="images/report/edit.svg" width="261" height="150" alt="" />
+          </div>
+          <div class="ziliao_a">
+            <p>实验名称： 涡街流量计验证实验</p>
+            <p>实验时间： 2016-11-17</p>
+            <p>实验状态： 正常</p>
+          </div>
+          <div class="ziliao_b">
+             <p>实验人： lhf</p>
+            <p>填写时间： 2016-11-17</p>
+             <p>实验记录： 已记录</p>
+          </div>
+        </div>
+        <form>
+             <div class="rBlock yuanli">
+                 <div class="header1">
+                     <img class="imgL" src="images/report/text.svg" width="261" height="150" alt="" />
+                     <h4>实验原理</h4>
+                     <img class="imgR" src="images/report/edit.svg" width="261" height="150" alt="" />
+                 </div>
+                 <div class="yuanli_b">
+                     <textarea class="text-area" name="ExpTheory"></textarea>
+                 </div>
+             </div>
+
+             <div class="rBlock shuju">
+                 <div class="header1">
+                     <img class="imgL" src="images/report/text.svg" width="261" height="150" alt="" />
+                     <h4>实验数据</h4>
+                     <img class="imgR" src="images/report/edit.svg" width="261" height="150" alt="" />
+                 </div>
+                 <div class="shuju_b">
+                     <textarea class="text-area" name="ExpData"></textarea>
+                 </div>
+             </div>
+
+             <div class="rBlock jielun">
+                 <div class="header1">
+                     <img class="imgL" src="images/report/text.svg" width="261" height="150" alt="" />
+                     <h4>实验结论</h4>
+                     <img class="imgR" src="images/report/edit.svg" width="261" height="150" alt="" />
+                 </div>
+                 <div class="jielun_b">
+                     <textarea class="text-area" name="ExpConclusion"></textarea>
+                 </div>
+             </div>
+
+             <div class="rBlock xinde">
+                 <div class="header1">
+                     <img class="imgL" src="images/report/text.svg" width="261" height="150" alt="" />
+                     <h4>实验心得</h4>
+                     <img class="imgR" src="images/report/edit.svg" width="261" height="150" alt="" />
+                 </div>
+                 <div class="xinde_b">
+                     <textarea class="text-area" name="ExpMind"></textarea>
+                 </div>
+             </div>
+         </form>
+         <div class="buttonUd">
+             <button id="buttonSubmit" type="button" class="btn btn-lg btn-default">提 交</button>
+             <button id="buttonPreview" type="button" class="btn btn-lg btn-default">预 览</button>
+         </div>
+     </div>
+  <!---------------------------------------------------------------------------------------------------------------->
+
+
+    <div id="bottom" align="center" style="background:url(./images/common/bottom_empty.jpg) no-repeat; height:240px; width:1580px; position:absolute; bottom:0px;">
+        <div class="all">
+            <div class="b_text">
+                <h6>介绍</h6>
+                <ul>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">加入我们</a></li>
+                    <li><a href="#">技术支持</a></li>
+                </ul>
+            </div>
+            <div class="b_text">
+                <h6>合作</h6>
+                <ul>
+                    <li><a href="#">新加课程</a></li>
+                    <li><a href="#">高校合作</a></li>
+                    <li><a href="#">友情链接</a></li>
+                </ul>
+            </div>
+            <div class="b_text">
+                <h6>服务</h6>
+                <ul>
+                    <li><a href="#">在线实验</a></li>
+                    <li><a href="#">注册登录</a></li>
+                    <li><a href="#">实验报告</a></li>
+                    <li><a href="#">实验评分</a></li>
+                    <li><a href="#">常见问题</a></li>
+                </ul>
+            </div>
+            <div class="b_text">
+                <h6>学习路径</h6>
+                <ul>
+                    <li><a href="#">原理介绍</a></li>
+                    <li><a href="#">传感器介绍</a></li>
+                    <li><a href="#">实验报告</a></li>
+                    <li><a href="#">实验评分</a></li>
+                </ul>
+            </div>
+        </div>
+
+<div class="power">COPYRIGHT@2016-2018 东南大学检测技术研究所</div>
+</div>
+
+</div>
+<script src="javascripts/jquery-1.12.3.min.js" type="text/javascript"></script>
+<script src="javascripts/bootstrap.js" type="text/javascript"></script>
+
+<script>
+    $('#buttonSubmit').click(function(e)
+    {
+/*
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '/uploadReport',
+            data: 'log=' + document.getElementById('expLog').innerText;
+        });*/
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '/uploadReport',
+            data: $('form').serialize()
+        });
+
+        if(confirm("报告已提交,按确认关闭此窗口,取消返回继续编辑"))
+        {
+            window.close();
+        }
+    }
+    );
+</script>
+</body>
+
+</html>

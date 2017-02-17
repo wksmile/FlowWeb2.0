@@ -1,0 +1,99 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">     <!---以上三行为bootStrap引入的CDN，必须放在任何其他内容的前面---->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">      <!-----此行为Highcharts所加----->
+    	
+<title><%= title %></title>
+<link href="./images/favicon.ico" rel="shortcut icon" />  <!--title的图标-->
+<!-- Bootstrap -->
+<link href="stylesheets/bootstrap.css" rel="stylesheet">
+<link href="stylesheets/style.css" rel="stylesheet" type="text/css">
+	
+<!------------------------------本地样式--------------------------------------------------------->
+<link href="stylesheets/forExamp.css" rel="stylesheet" type="text/css" media="all"/>
+<!------------模板导入的网上字体-------->
+<link href='http://fonts.googleapis.com/css?family=Armata' rel='stylesheet' type='text/css'>
+	
+</head>
+
+<body>
+ <div class="wrap">
+   <div class="header">
+	   <div class="header_top">
+	   		<div class="logo">
+	   			<a href="index.html"><img src="./images/HomeLog.png" alt="" /></a>
+	   		</div>
+	   		<span style="font-family: '华文行楷'; color: FFFF66; font-size: xx-large; position: relative; left: 20%; top: 20px;">东南大学远程教育实验室</span>
+			<div class="search_box">
+			       <% if (locals.username) { %> 
+                      <a href="#">        
+                             <%= username %>          
+                      </a>
+                      &nbsp;
+                      <a href="/logout">安全退出</a>
+                   <% } %>  
+		    </div>
+	   		 <div class="clear"> </div>
+	   	</div>
+   	<div class="header_bottom">
+   		<div class="menu">
+	     		<ul>
+	     		 	<li class="active"><a href='/'>首页</a></li>
+			    	<li><a href='/about'>关于我们</a></li>
+			    	<li><a href='/services'>关于项目</a></li>
+			    	<li><a href='/exper0' target="_blank">网上实验</a></li>
+			    	<li><a href='/contact'>联系我们</a></li>
+			    	
+     			</ul>
+   		</div>
+		   	<div class="banner">
+		   		<div class="header_banner_data">
+		   			<h1><span>新方法</span> <br/><br/>通过电脑远程操作</h1>
+		   		</div>
+			   		<div class="banner_img">
+			   			<img src="./images/banner_img.png" alt="" />
+			   	    </div>
+		   		<div class="clear"> </div>
+		    </div>
+          <div class="clear"> </div>
+   	 </div>
+  </div>
+  <div class="main">
+   	  <div class="sidebar">
+   		<div class="sidebar_top">
+   			<h2>了解实验</h2>
+		   		<div class="sidebar_top_data">
+		   			<h3>新方法</h3>
+				   		<div class="sidebar_top_desc">
+				   			<p>只需要电脑并且联网就可以在任何地方做实验</p>
+				   			<p><span>更多</span></p>
+				   		</div>
+		   					<img src="./images/sidebar_img1.jpg" alt="" />
+		   				<div class="clear"></div>
+		   			</div>
+		   		<div class="sidebar_top_data">
+		   			 <h3>新理念</h3>
+		   			<div class="sidebar_top_desc"> 
+			   			<p>摆脱时间空间的限制，让实验资源更充分地利用起来。</p>
+			   			<p><span>更多</span></p>
+		   			</div>
+		   				<img src="./images/sidebar_img2.jpg" alt="" />
+		   			<div class="clear"></div>
+		   		</div>
+		   </div>
+   		<div class="sidebar_bottom">
+   			<p><span>关于东南大学自动化学院远程实验设计实验室。</span>东南大学自动化学院前身是1957年筹建、1962年
+   			        正式招生的东南大学自动控制系，是国内最早设立自动化专业的院系之一。自动化学院远程控制实验室发展很快，
+   			       目前已经实验了远程水箱液位的控制。以下为实验室的特色：</p>
+              <ul>
+              	<li>致力于科学研究</li>
+              	<li>关心学生的成长</li>
+              	<li>关注前沿科学技术</li>
+              	<li>有优秀的老师带队</li>             	
+              </ul>  		
+   		</div>
+   	</div>

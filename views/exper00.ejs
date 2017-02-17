@@ -1,0 +1,380 @@
+<!DOCTYPE HTML>
+<!--未加入Bootstrap的两行链接---->
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<!-----此行为Highcharts所加----->
+		<title>
+			<%= title %>
+		</title>
+		<link href="./images/favicon.ico" rel="shortcut icon" />  <!--title的图标-->
+		<!---以下为模板的链接------------------------------------------------------------------------------->
+		<link href="http://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css" />
+		<link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+		<link href="stylesheets/exper.css" rel="stylesheet" type="text/css" media="screen" />
+	</head>
+
+	<body>
+		<div id="wrapper">
+			<div id="header-wrapper">
+				<div id="header">
+					<div id="logo">
+						<h1><a><font color=DarkBlue>远程流量液位控制实验</font></a></h1>
+						<p><font color=DarkBlue>东南大学远程教育实验</font></p>
+					</div>
+				</div>
+			</div>
+			<!-- end #header -->
+			<div id="menu-wrapper">
+				<div id="menu">
+					<ul>
+						<li class="current_page_item"><a href="/exper">实验</a></li>
+						<li><a href="/">首页</a></li>
+						<li><a href="#">分数查询</a></li>
+						<li><a href="#">我的实验</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- end #menu -->
+			<div id="page">
+				<div id="page-bgtop">
+					<div id="page-bgbtm">
+						<div id="page-content">
+							<div id="content">
+								<div class="post">
+									<!--------------------以下为控制按钮的内容 ------------------------------------------------------------------------------------------------------->
+
+									<!-- Buttons 库的核心文件 -->
+									<link rel="stylesheet" href="stylesheets/buttons.css">
+									<!-- 当需要使用带下拉菜单的按钮时才需要加载下面的 JavaScript 文件 -->
+									<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+									<script type="text/javascript" src="js/buttons.js"></script>
+									<!-- 只有使用字体图标时才需要加载 Font-Awesome -->
+									<link href="http://cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+									<table width="100%" border="2" cellspacing="0" cellpadding="0" align="center" background="images/table_bg.jpeg" border="5px" bordercolor="">
+										<tbody>
+											<tr>
+												<td align="center" colspan="3">
+													<p align="center" style=" font-family:华文行楷; font-weight:bold">流量与液位综合检测平台</p>
+												</td>
+												<td width="20%">&nbsp;</td>
+											</tr>
+											<tr>
+												<td align="center" colspan="3" rowspan="4">
+													<div id="containerF" style="min-width:50%;  margin: 0 auto">
+                                                    <script type="text/javascript">
+                                                        $(function () {
+                                                            var t = 10000;
+                                                            $('#containerF').highcharts({
+                                                                
+                                                                chart: {
+                                                                    zoomType: 'x',
+                                                                    spacingRight: 20,
+                                                                    
+                                                                    events: {
+                                                                        load: function () {
+
+                                                                            // set up the updating of the chart each second
+                                                                            var series = this.series[0];
+                                                                            setInterval(function () {
+                                                                            
+                                                                                $.post("/getMass", function(data){
+                                                                                    var x = t; // current time
+                                                                                    var y = Number(data);
+                                                                                    //alert(y);
+                                                                                series.addPoint([x, y], true, true);
+                                                                                t+=1000;
+                                                                                });
+                                                                                                        
+                                                                                
+                                                                            }, 1000);
+                                                                        }
+                                                                    }
+                                                                    
+                                                                },
+                                                                title: {
+                                                                    text: '容器质量曲线'
+                                                                },
+                                                                subtitle: {
+                                                                    
+                                                                },
+                                                                xAxis: {
+                                                                    type: 'datetime',
+ 
+                                                                    dateTimeLabelFormats : {
+                                                                        second: '%M:%S',
+                                                                        minute: '%M:%S',
+                                                                        hour: '%M:%S',
+                                                                        day: '%M:%S',
+                                                                        week: '%M:%S',
+                                                                        month: '%M:%S',
+                                                                        year: '%M:%S'
+                                                                    },
+                                                                    maxZoom: 3600,
+                                                                    title: {
+                                                                        text: '时间'
+                                                                    }
+                                                                },
+                                                                yAxis: {
+                                                                    title: {
+                                                                        text: '质量/kg'
+                                                                    },
+                                                                    min:0,
+                                                                    max:30
+                                                                },
+                                                                tooltip: {
+                                                                    shared: true
+                                                                },
+                                                                legend: {
+                                                                    enabled: false
+                                                                },
+                                                                plotOptions: {
+                                                                    area: {
+                                                                        fillColor: {
+                                                                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                                                                            stops: [
+                                                                                [0, Highcharts.getOptions().colors[0]],
+                                                                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                                                            ]
+                                                                        },
+                                                                        lineWidth: 1,
+                                                                        marker: {
+                                                                            enabled: false
+                                                                        },
+                                                                        shadow: false,
+                                                                        states: {
+                                                                            hover: {
+                                                                                lineWidth: 1
+                                                                            }
+                                                                        },
+                                                                        threshold: null
+                                                                    }
+                                                                },
+
+                                                                series: create()
+                                                            });
+                                                            function create() {  
+                                                                    var series = new Array();  
+                                                                    series.name = '质量/kg'; 
+                                                                    series.pointInterval = 30000;
+                                                                    series.pointStart = 0; 
+                                                                    series.data = (function () {
+                                                                    
+                                                                        var data = [];
+                                                                       // time = new Date().getTime();
+
+                                                                        for (i = 0; i <= 100; i += 1) {
+                                                                            data.push({
+                                                                                x: i * 100,
+                                                                                y: 0
+                                                                            });
+                                                                        }
+                                                                        return data;
+                                                                    }())
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    var data = [];  
+                                                                    data[0] = series;  
+                                                                    return data;  
+                                                            };
+                                                        });                  
+                                                    </script>
+														<!--动态图表位置--->
+													</div>
+												</td>
+												<td align="center">
+                                                    <button type="submit" id=app6 class="button button-pill button-tiny">变频器开</button>
+                                                    <!-----打开试验台水泵---->
+												</td>
+											</tr>
+											<tr>
+												<td align="center">
+                                                    <button type="submit" id=app7 class="button button-pill button-tiny">变频器关</button>
+                                                    <!----关闭实验台水泵----->
+												</td>
+											</tr>
+											<tr>
+												<td align="center">
+                                                    <button type="submit" id=app8 class="button button-pill button-tiny">容器清空</button>
+                                                    <!---向后台发送清空容器和置零电子秤----->
+												</td>
+											</tr>
+											<tr>
+												<td align="center">&nbsp;</td>
+											</tr>
+											<tr>
+												<td align="center" width="20%">
+                                                    <button type="submit" id=app0 class="button button-pill button-tiny">侧阀开</button>
+                                                    <!--打开实验平台侧阀-->
+												</td>
+												<td align="center" width="20%">
+													<button type="submit" id=app1 class="button button-pill button-tiny">侧阀关</button>
+													<!--关闭实验品台侧阀-->
+												</td>
+												<td align="center" width="40%">&nbsp;</td>
+												<td align="center" width="20%">&nbsp;</td>
+											</tr>
+											<tr>
+												<td align="center">
+                                                    <button type="submit" id=app2 class="button button-pill button-tiny">下水阀开</button>
+                                                    <!--打开实验平台底阀-->
+												</td>
+												<td align="center">
+                                                    <button type="submit" id=app3 class="button button-pill button-tiny">下水阀关</button>
+                                                    <!---关闭实验平台底阀---->
+												</td>
+												<td align="center" rowspan="3">&nbsp;</td>
+												<td>&nbsp;</td>
+											</tr>
+											<tr>
+												<td align="center">
+                                                    <button type="submit" id=app4 class="button button-pill button-tiny">上水阀开</button>
+                                                    <!------打开实验平台上阀--->
+												</td>
+												<td align="center">
+                                                    <button type="submit" id=app5 class="button button-pill button-tiny">上水阀关</button>
+                                                    <!--关闭试验平台上阀---->
+												</td>
+												<td align="center">&nbsp;</td>
+												<td align="center">&nbsp;</td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="post">
+									<h2 class="title"><a>实验平台</a></h2>
+									<div class="entry">
+										<!--------------------------------------以下为动态图表的内容--------------------------------------------------------------------------------------->
+
+										<script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+										<style type="text/css">
+											$ {
+												demo.css
+											}
+										</style>
+										<script type="text/javascript">
+										</script>
+
+										<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+										<script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
+										<!------------------以下为仪表------------------------------------------------------->
+										<div id="shiyan" align="center">
+											<script src="http://cdn.hcharts.cn/highcharts/highcharts-more.js"></script>
+
+											<div id="container" style="min-width: 8%; max-width: 25%; height: 150px; position: absolute; left:33% "></div>
+
+											<!-------------------------------------------以下为实验台------------------------------------------------------------------->
+											<img src="images/ExpTable.png" width="40%%" height="65%" alt="图片不能显示" style="position: absolute; left: 20%; z-index: -1;">
+										</div>
+										<!--------------------------------以下为footer------------------------------------------------------------------>
+										<!-- Include all compiled plugins (below), or include individual files as needed -->
+									</div>
+									<script src="javascripts/bootstrap.js"></script>
+									<!----导入exper的js文件------------>
+									<script type="text/javascript" src="javascripts/exper.js"></script>
+                                    
+                                    <script>
+                                        $(document).ready(function(){
+                                            $("#app0").click(function(){
+                                                $.post("/app0",{}, function(data){
+                                                    if(data==='done')
+                                                    {
+                                                        //alert(data);
+                                                    }
+                                                });
+                                            });
+                                            $("#app1").click(function(){
+                                                $.post("/app1",{}, function(data){
+                                                    if(data==='done')
+                                                    {
+                                                        
+                                                    }
+                                                });
+                                            });                                            
+                                            $("#app2").click(function(){
+                                                $.post("/app2",{}, function(data){
+                                                    if(data==='done')
+                                                    {
+                                                        
+                                                    }
+                                                });
+                                            });
+                                            $("#app3").click(function(){
+                                                $.post("/app3",{}, function(data){
+                                                    if(data==='done')
+                                                    {
+                                                        
+                                                    }
+                                                });
+                                            });
+                                            $("#app4").click(function(){
+                                                $.post("/app4",{}, function(data){
+                                                    if(data==='done')
+                                                    {
+                                                        
+                                                    }
+                                                });
+                                            });
+                                            $("#app5").click(function(){
+                                                $.post("/app5",{}, function(data){
+                                                    if(data==='done')
+                                                    {
+                                                        
+                                                    }
+                                                });
+                                            });
+                                            $("#app6").click(function(){
+                                                $.post("/app6",{}, function(data){
+                                                    if(data==='done')
+                                                    {
+                                                        
+                                                    }
+                                                });
+                                            });
+                                            $("#app7").click(function(){
+                                                $.post("/app7",{}, function(data){
+                                                    if(data==='done')
+                                                    {
+
+                                                    }
+                                                });
+                                            });
+                                            $("#app8").click(function(){
+                                                $.post("/app8",{}, function(data){
+                                                    if(data==='done')
+                                                    {
+                                                        
+                                                    }
+                                                });
+                                            });                                                                                                                                    
+                                        });
+                                    </script>
+                                    
+								</div>
+							</div>
+							<div style="clear: both;">&nbsp;</div>
+						</div>
+					</div>
+					<div style="clear: both;">&nbsp;</div>
+				</div>
+			</div>
+		</div>
+		<!-- end #page -->
+		</div>
+		<!-- end #footer -->
+	</body>
+
+</html>

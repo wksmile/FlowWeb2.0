@@ -1,0 +1,266 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app.js');
+
+var http = require('http');
+
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+//Socket.io 服务器建立
+var socketio = require('socket.io').listen(server);
+
+var jsmpeg = new require('../jsmpeg.js')(socketio);
+
+
+socketio.sockets.on('connection', function(socket){
+  console.log('Client browser Socket.IO connected!');
+
+  socket.on('controlPump', function(frequency){
+    if(platformAlive)
+    {
+      client.write('pump=' + frequency);
+      console.log('Pump frequency sent...');
+    }
+  });
+
+  socket.on('startExperiment', function(frequency){
+    if(platformAlive)
+    {
+      client.write('startExperiment=' + frequency);
+      console.log('Starting experiment...');
+    }
+  });
+
+  socket.on('stopExperiment', function(){
+    if(platformAlive)
+    {
+      client.write('stopExperiment');
+      console.log('Experiment stopped...');
+    }
+  });
+
+  socket.on('resetExperiment', function(){
+    if(platformAlive)
+    {
+      client.write('reset');
+      console.log('Experiment reset...');
+    }
+  });
+
+  socket.on('controlValves', function(id, state){
+    if(state)state=1;
+    else state=0;
+
+    if(platformAlive)
+    {
+      switch (id.toUpperCase())
+      {
+        case 'IN':
+          client.write('valveIn='+ state);
+          break;
+        case 'OUT':
+          client.write('valveOut='+ state);
+          break;
+        case 'SIDE':
+          client.write('valveSide='+ state);
+          break;
+      }
+    }
+  });
+
+
+});
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }   
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+ // debug('Listening on ' + bind);
+}
+
+
+var net = require('net');
+var HOST = '192.168.1.230';
+var PORT = 6666;
+var client = new net.Socket();
+var platformAlive = false;
+
+var mass = 0;
+var massGot = false;
+
+//连接流量台处理函数
+var connectPlatform = function(){
+  client.connect(PORT, HOST, function()
+  {
+    //client.setMaxListerners(0);
+    console.log('Connected to Platform...');
+    platformAlive = true;
+  });
+
+  client.on('close', function(r){
+    console.log('Platform disconnected...');
+    console.log('Retry connecting...');
+    platformAlive = false;
+    setTimeout(function(){client.connect(PORT, HOST, function(){platformAlive = true;});}, 4000);
+
+  });
+
+  client.on('error', function(e){
+    console.log('Error with connection to Platform!');
+    console.log(e);
+    platformAlive = false;
+  });
+
+  var n = 0;
+  client.on('data', function(data){
+    console.log('Data received from Platform');
+    console.log('Series:' + n++);
+    console.log('received:\r\n' + data);
+    data = data + '';
+    var words = data.split("\r\n");
+    var temperatureAir, ultrasonic, distance, flowRate, totalFlow, weight;
+    var temperatureWater, flowRateHM, totalFlowHM;//These are measurements of HeatMeter
+    var valveIn, valveOut, valveSide;
+    var inverter;
+
+    //先判断是否是错误提示数据包,若是,则直接触发错误提醒
+    words.forEach(function(e, i, a){
+      var item = e.split(":");
+      if(item[0]=="Error")
+      {
+        socketio.emit("Error", item[1]);
+        return;
+      }
+    });
+
+    //不是错误包,按照正常数据处理
+    words.forEach(function(e, i, a){
+      var item = e.split(":");
+
+        switch(item[0])
+        {
+          case "Temperature":
+            temperatureAir = item[1];
+            break;
+          case "Ultrasonic":
+            ultrasonic = item[1];
+            break;
+          case "Distance":
+            distance = item[1];
+            break;
+          case "FlowRate":
+            flowRate = item[1];
+            break;
+          case "TotalFlow":
+            totalFlow = item[1];
+            break;
+          case "Weight":
+            weight = item[1];
+            break;
+          case "FlowRateHM":
+            flowRateHM = item[1];
+            break;
+          case "TotalFlowHM":
+            totalFlowHM = item[1];
+            break;
+          case "TemperatureHM":
+            temperatureWater = item[1];
+            break;
+
+          case "ValveIn":
+            valveIn = item[1];
+            break;
+          case "ValveOut":
+            valveOut = item[1];
+            break;
+          case "ValveSide":
+            valveSide = item[1];
+            break;
+
+          case "Inverter":
+            inverter = item[1];
+            break;
+        }
+      });
+      socketio.emit("Data Pack", temperatureAir, ultrasonic, distance, flowRate, totalFlow, weight, temperatureWater, flowRateHM, totalFlowHM, valveIn, valveOut, valveSide, inverter);
+  });
+}
+
+connectPlatform();

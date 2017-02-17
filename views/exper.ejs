@@ -1,0 +1,217 @@
+<!DOCTYPE HTML>
+<!--未加入Bootstrap的两行链接---->
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<!-----此行为Highcharts所加----->
+		<title>
+			<%= title %>
+		</title>
+		<link href="./images/favicon.ico" rel="shortcut icon">  <!--title的图标-->
+		<!---以下为模板的链接------------------------------------------------------------------------------->
+		<link href="stylesheets/exper.css" rel="stylesheet" type="text/css" media="screen">
+        <script src="/jquery/dist/jquery.js"></script>
+	</head>
+
+	<body>
+
+    <div id="wrapper">
+			<div id="header-wrapper">
+				<div id="header">
+					<div id="logo">
+						<h1 style="color:darkblue">远程流量液位控制实验</h1>
+						<p style="color:darkblue">东南大学远程教育实验</p>
+					</div>
+				</div>
+			</div>
+			<!-- end #header -->
+			<div id="menu-wrapper">
+				<div id="menu">
+					<ul>
+						<li class="current_page_item"><a href="/exper">实验</a></li>
+						<li><a href="/">首页</a></li>
+						<li><a href="#">分数查询</a></li>
+						<li><a href="#">我的实验</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- end #menu -->
+			<div id="page" >
+
+                <div id="page-content">
+                    <div id="content">
+                        <!-- Buttons 库的核心文件 -->
+                        <!-- 当需要使用带下拉菜单的按钮时才需要加载下面的 JavaScript 文件 -->
+                        <!-- 只有使用字体图标时才需要加载 Font-Awesome -->
+                        <link href="http://cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+                        <!---------------------------------数据显示及控制按钮---------------------------------------------->
+                        <div style="width:800px; background-color: #f0f0f0">
+                            <div style="font-size: x-large; font-weight:bold" align="center">流量与液位检测验证实验</div>
+                            <div style="width: 50%; height: 125px; background-color: #DDDDDD; float: left"><!--左侧物理量显示-->
+                                <div style="padding-left: 20%; width: 40%; float: left">液位</div>
+                                <div id="labelWaterLevel" style="width: 40%; float: left">425 mm</div>
+
+                                <div style="padding-left: 20%; width: 40%; float: left">电子秤质量</div>
+                                <div id="labelWeight" style="width: 40%; float: left">0 kg</div>
+
+                                <div style="padding-left: 20%; width: 40%; float: left">涡街流量计瞬时流量</div>
+                                <div id="labelFlowRateVortex" style="width: 40%; float: left">0 m3/h</div>
+
+                                <div style="padding-left: 20%; width: 40%; float: left">热能表瞬时流量</div>
+                                <div id="labelFlowRateHeatmeter" style="width: 40%; float: left">    </div>
+
+                                <div style="padding-left: 20%; width: 40%; float: left">涡街流量计累积流量</div>
+                                <div id="labelTotalFlowVortex" style="width: 25%; float: left">12.34 m3</div>
+                                <div style="float: left"><button id="clearVortex">清零</button></div>
+
+                                <div style="padding-left: 20%; width: 40%; float: left">热能表累积流量</div>
+                                <div id="labelTotalFlowHeatmeter" style="width: 25%; float: left">23.45 m3</div>
+                                <div style="float: left"><button id="clearHeatmeter">清零</button></div>
+
+                            </div>
+
+                            <div style="width: 50%; height: 125px; background-color: #bbbbbb; float: left">
+                                <div style="padding-left: 20%; width: 40%; float:left">进水阀</div>
+                                <div>
+                                    <button id="openIn">开启</button>
+                                    <button id="closeIn">关闭</button>
+                                </div>
+
+                                <div style="padding-left: 20%; width: 40%; float:left">出水阀</div>
+                                <div>
+                                    <button id="openOut">开启</button>
+                                    <button id = "closeOut">关闭</button>
+                                </div>
+
+                                <div style="padding-left: 20%; width: 40%; float:left">侧阀</div>
+                                <div>
+                                    <button id="openSide">开启</button>
+                                    <button id="closeSide">关闭</button>
+                                </div>
+
+                                <div style="padding-left: 20%; width: 40%; float: left">变频器</div>
+                                <div>
+                                    <button id="startPump">启动</button>
+                                    <button id="stopPump">停止</button>
+                                </div>
+
+                                <div style="padding-left: 20%; width: 40%; float: left">变频器频率</div>
+                                <div>
+                                    <input id = "frequencySlider" type="range" min="0" max="50" value="30" style="width: 85px; height:5px" onmousemove = "updateFrequencyValue();">
+                                    <label id = "labelFrequencyValue" style="width: 40px">0 Hz</label>
+                                </div>
+
+                                <script>
+                                    $('#openIn').click(function () {socket.emit('controlValves', 'in', '1');})
+                                    $('#closeIn').click(function () {socket.emit('controlValves', 'in', '2');})
+                                    $('#openOut').click(function () {socket.emit('controlValves', 'out', '1');})
+                                    $('#closeOut').click(function () {socket.emit('controlValves', 'out', '2');})
+                                    $('#openSide').click(function () {socket.emit('controlValves', 'side', '1');})
+                                    $('#closeSide').click(function () {socket.emit('controlValves', 'side', '2');})
+                                    $('#frequencySlider').change(function (){
+                                        updateFrequencyValue();
+                                        socket.emit('controlPump', document.getElementById('frequencySlider').value);
+                                    })
+                                    function updateFrequencyValue(){document.getElementById('labelFrequencyValue').innerHTML = document.getElementById('frequencySlider').value + ' Hz';}
+                                </script>
+
+                            </div>
+
+                            <!-------------------------------------时间曲线区域--------------------------------------->
+                            <div style="width: 20%; height: 250px; background-color: #dddddd; float: left">
+                                <div style="top: 50%">
+                                    <div style="background-color: #c0c0c0; text-align:center">曲线显示设置</div>
+                                    <br><br><br>
+                                    <div><input type="checkbox">显示超声波液位</div>
+                                    <div><input type="checkbox">显示质量</div>
+                                    <div><input type="checkbox">显示涡街瞬时流量</div>
+                                    <div><input type="checkbox">显示涡街累积流量</div>
+                                    <div><input type="checkbox">显示热能表瞬时流量</div>
+                                    <div><input type="checkbox">显示热能表累积流量</div>
+                                    <br>
+                                    <div style="text-align: center"><button id="clearGraph">重置曲线图</button></div>
+                                </div>
+                            </div>
+                            <div id="chartTime" style = "width: 80%; height: 250px; float:left">
+                                <!--时间关系曲线在此-->
+                                <script type="text/javascript" src="javascripts/chart.js"></script>
+                            </div>
+
+                            <!-------------------------------------关系曲线区域--------------------------------------->
+                            <div style="width: 20%; height: 250px; background-color: #dddddd; float: left">
+                                <div style="background-color: #c0c0c0; text-align: center">横坐标数据</div>
+                                <br><br><br>
+                                <div><input type="radio" name= "Xaxis" checked = true>超声波液位</div>
+                                <div><input type="radio" name= "Xaxis">质量</div>
+                                <div><input type="radio" name= "Xaxis">涡街瞬时流量</div>
+                                <div><input type="radio" name= "Xaxis">涡街累积流量</div>
+                                <div><input type="radio" name= "Xaxis">热能表累积流量</div>
+                                <div><input type="radio" name= "Xaxis">热能表累积流量</div>
+                                <br>
+                                <div style="text-align: center"><button id="clearGraph">重置关系曲线</button></div>
+                            </div>
+                            <div style="width: 0.5%; float: left"><br></div>
+                            <div style="width: 20%; height: 250px; background-color: #dddddd; float: left">
+                                <div style="background-color: #c0c0c0; text-align: center">纵坐标数据</div>
+                                <br><br><br>
+                                <div><input type="radio" name= "Yaxis">超声波液位</div>
+                                <div><input type="radio" name= "Yaxis" checked = true>质量</div>
+                                <div><input type="radio" name= "Yaxis">涡街瞬时流量</div>
+                                <div><input type="radio" name= "Yaxis">涡街累积流量</div>
+                                <div><input type="radio" name= "Yaxis">热能表累积流量</div>
+                                <div><input type="radio" name= "Yaxis">热能表累积流量</div>
+                            </div>
+                            <div id="chartRelation" style = "width: 59.5%; height: 250px; float:left">
+                                <!--数据关系曲线在此-->
+                                <script type="text/javascript" src="javascripts/chart.js"></script>
+                            </div>
+
+                        </div>
+
+                        <!----------------------------------------- Javascripts----------------------------------------->
+                        <div class="misc">
+                            <script>updateFrequencyValue();</script>
+                        </dv>
+
+                        <div class="highcharts">
+                            <script src="/jquery/dist/jquery.js"></script>
+                            <script src="/highcharts/highcharts.js"></script>
+                            <script src="/highcharts/modules/exporting.js"></script>
+                        </div>
+
+                        <div class="socket.IO">
+                            <script src="/socket.io/socket.io.js"></script>
+                            <script>
+                                var socket = io.connect();
+                                var time = 0;
+                                socket.on("Data Pack", function(temperature, ultraTime, distance, flowRate, totalFlowVortex, weight){
+                                    if(true) {
+                                        document.getElementById('labelWaterLevel').innerHTML = distance + ' mm';
+                                        document.getElementById('labelWeight').innerHTML = weight + ' kg';
+                                        document.getElementById('labelFlowRateVortex').innerHTML = flowRate + ' m3/h';
+                                        document.getElementById('labelTotalFlowVortex').innerHTML = totalFlowVortex + ' m3';
+                                        chartTime.series[0].addPoint([time, Number(weight)], true, true);
+                                        console.log("recrecrecrecrec   ");
+
+                                        time += 1000;
+                                    }
+                                });
+                            </script>
+                            <script src="javascripts/bootstrap.js"></script>
+                        </div>
+                    </div>
+                    <div style="clear: both;">&nbsp;</div>
+                </div>
+			</div>
+		</div>
+		<!-- end #page -->
+		</div>
+		<!-- end #footer -->
+	</body>
+
+</html>

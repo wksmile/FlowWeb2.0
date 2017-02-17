@@ -1,0 +1,295 @@
+﻿<!DOCTYPE HTML>
+<!--未加入Bootstrap的两行链接---->
+<html lang="en" xmlns="http://www.w3.org/1999/html" style="text-align: center" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>首页</title>
+	<!--------------------------------以下为模板的链接------------------------------------->
+	<link href="stylesheets/experNew.css" rel="stylesheet" type="text/css" media="screen">
+	<link href="stylesheets/topStrip.css"  rel="stylesheet" type="text/css">
+	<link href="stylesheets/report.css"  rel="stylesheet" type="text/css">
+	<link href="stylesheets/bootstrap.css" rel="stylesheet" type="text/css">
+
+	<script src="/jquery/dist/jquery.js"></script>
+</head>
+
+<!--加上auto居中-->
+<body style = "margin:0 auto; width:1580px; text-align:left;" onload="updateFrequencyValue();">
+
+<!-----顶部导航栏----->
+<div id="top" align="center" style="background:url(./images/common/top.png); position: relative">
+
+	<li id="menuLesson" class="menu" style="margin-left: 700px">
+		<div style="height:55px; line-height:55px">课程简介</div>
+		<div class="list">
+            <a class="menuItem" href="#">超声波液位计验证实验</a>
+            <a class="menuItem" href="#">超声波流量计验证实验</a>
+            <a class="menuItem" href="#">涡街流量计综合实验</a>
+            <a class="menuItem" href="#">涡街流量计综合实验</a>
+            <a class="menuItem" href="#">超声波液位计综合实验</a>
+		</div>
+	</li>
+	<li id="menuExp" class="menu">
+		<div style="height:55px; line-height:55px">在线实验</div>
+		<div class="list">
+			<a class="menuItem" href="exper0" target="_blank">涡街流量计验证实验</a>
+			<a class="menuItem" href="#">超声波液位计验证实验</a>
+			<a class="menuItem" href="#">超声波流量计验证实验</a>
+			<a class="menuItem" href="#">涡街流量计综合实验</a>
+			<a class="menuItem" href="#">超声波液位计综合实验</a>
+			<a class="menuItem" href="#">超声波流量计综合实验</a>
+		</div>
+	</li>
+	<li id="menuReport" class="menu">
+		<div style="height:55px; line-height:55px">实验报告</div>
+		<div class="list">
+			<a class="menuItem" href="/uploadReport" target="view_window">提交</a>
+			<a class="menuItem" href="#">查看</a>
+		</div>
+	</li>
+	<li class="menu">
+		<a href="#" style="height:55px; line-height:55px; color:#ffffff">个人信息</a>
+	</li>
+
+	<div id="userName">
+        <% if (locals.username) { %>
+        <a href="#" style="color: #ddd; font-size: 1em;">
+            <%= username %>
+        </a>
+        &nbsp;
+        <a href="/logout" style="color: #ddd; font-size: 1em;">安全退出</a>
+        <% } else { %>
+            <a href="/login" style="color: #ddd; font-size: 1em;">请登录</a>
+        <% }  %>
+
+
+    </div>
+    <!-----回到主页链接--->
+    <a href="/" target="_blank">
+        <div align="center" style="position: absolute; left:200px; top:0px; width:350px; height:55px; z-index: 1000"></div>
+    </a>
+</div>
+
+<!----------------------------------------------以上为导航栏------------------------------------------------------->
+<div style = "background:url(./images/index/banner1.jpg) no-repeat center; margin:0 auto; width:1580px; height:500px; position: relative;">
+    <div class="button">
+      <!--button type="button" class="btn btn-lg btn-default" >进入实验</button-->
+    </div>
+
+    <% if (locals.username) { %>
+    <% } else { %>
+        <div class="log">
+            <form method="post">
+                <input id="txtUserName" class="login" type="text" name="txtUserName" placeholder="用户名">
+                <br>
+                <input id="txtUserPwd" class="login" type="password" name="txtUserPwd" placeholder=" 密码">
+                <br>
+                <input class="btn btn-lg btn-default" type="submit" value="登录" style="color: #222222; width: 200px; border-radius: 4px; z-index: 10;">
+                <br>
+                <input name="chbRem" id="chbRem" type="checkbox" value="remember-me"> 记住密码</input>
+            </form>
+        </div>
+    <% }  %>
+
+
+</div>
+  <!---------------------------------------------------------------------------------------------------------------->
+    <div class="banner-bottom-section" style="height: 350px; position:absolute; top: 610px; left: 17%;">
+        <div class="container">
+            <div class="setc">
+                <img src="images/index/coi1.jpg" width="151" height="151" alt="" />
+                <p>
+                    丰富的检测技术实验课程
+                    <br />自定义实验
+                </p>
+            </div>
+            <div class="setc">
+                <img src="images/index/coi2.jpg" width="151" height="151" alt="" />
+                <p>远程在线操作<br />随时随地做实验</p>
+            </div>
+            <div class="setc">
+
+                <img src="images/index/coi3.jpg" width="151" height="151" alt="" />
+                <p>在线实验选课<br />方便你的时间安排</p>
+            </div>
+            <div class="setc">
+                <img src="images/index/coi3.jpg" width="151" height="151" alt="" />
+                <p>在线实验选课<br />方便你的时间安排</p>
+            </div>
+        </div>
+    </div>
+  <!---------------------------------------------以下为网站简介----------------------------------------------->
+    <div class="banner-bottom-section" style="height: 350px; position: absolute; top: 900px; left:14%">
+        <div class="container">
+            <div class="header3"><h3 class="htitle">网站简介</h3></div>
+            <div class="text">
+                <p>
+                    针对现有传感器与检测技术实验平台没有物位、流量实验的现状，本教程编者团队在国家级精品课程、国家级精品资源共享课程“检测技术”课程的建设过程中，
+                    与南京新思维自动化科技有限公司联合研制了远程开放式流量/液位综合检测平台，依托此实体平台和互联网，
+                    可不受时间、距离限制，开展多种流量、液位的无人值守、智能考评、远程、网上操作实体平台的虚拟/现实型综合设计实验。
+                </p>
+            </div>
+            <div class="text">
+                <img src="images/index/msz.jpg" width="168" height="168" alt="" />
+                <p>东南大学检测技术与自动化装置学科带头人、博士点负责任人，东南大学控制科学与工程一级学科学术委员会委员；并长期担任国务院学位办学位授权评审专家，科技部国家科技支撑计划项目、国家技术发明奖、科学技术进步奖评审专家，教育部推荐国家科学技术进步奖、人事部博士后流动站及博士后基金教评审专家，江苏省、重庆市、山东省科技咨询专家，江苏省仪器仪表学会智能化仪器仪表专业委员会主任，东南大学教学委员会委员；现任东南大学农业信息化与物联网技术研究中心主任，东南大学检测技术与自动化装置研究所所长，东南大学工学部学部委员，国家精品课程、国家精品资源共享课程——《检测技术》课程负责人、首席教授；国家核心期刊《测控技术》编委.</p>
+            </div>
+        </div>
+    </div>
+  <!---------------------------------------------实验课程-------------------------------------------------------------->
+    <div class="banner-bottom-section" style="height: 350px; position: absolute; top:1300px; left: 15%;">
+        <div class="container">
+            <div class="header3"><h3 class="htitle">实验课程</h3></div>
+            <div class="couse">
+                <div class="couse_img">
+                    <img src="images/index/shiyan2.jpg" width="261" height="150" alt="" />
+                </div>
+                <div class="couse_text">
+                    <p>涡街流量计实验</p>
+                </div>
+                <div class="couse_button">
+                    <img src="images/report/people.svg" alt="" />
+                    <button type="button">进入</button>
+                </div>
+            </div>
+
+            <div class="couse">
+                <div class="couse_img">
+                    <img src="images/index/shiyan1.jpg" width="261" height="151" alt="" />
+                </div>
+                <div class="couse_text">
+                    <p>超声波流量实验</p>
+                </div>
+                <div class="couse_button">
+                    <img src="images/report/people.svg" alt="" />
+                    <button type="button">进入</button>
+                </div>
+            </div>
+
+            <div class="couse">
+                <div class="couse_img">
+                    <img src="images/index/shiyan2.jpg" width="261" height="150" alt="" />
+                </div>
+                <div class="couse_text">
+                    <p>综合实验</p>
+                </div>
+                <div class="couse_button">
+                    <img src="images/report/people.svg" alt="" />
+                    <button type="button">进入</button>
+                </div>
+            </div>
+
+            <div class="couse">
+                <div class="couse_img">
+                    <img src="images/index/shiyan1.jpg" width="261" height="151" alt="" />
+                </div>
+                <div class="couse_text">
+                    <p>自定义实验</p>
+                </div>
+                <div class="couse_button">
+                    <img src="images/report/people.svg" alt="" />
+                    <button type="button">进入</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+  <!--------------------------------------------合作高校---------------------------------------------------------------------------->
+    <div class="banner-bottom-section" style="height: 350px; position: absolute; top:1690px; left: 16%;">
+        <div class="container">
+            <div class="header3"><h3 class="htitle">高校合作</h3></div>
+            <div class="school">
+                <img src="images/index/njgongye.jpg" width="792" height="558" alt="" />
+                <span>南京工业大学</span>
+                <div class="school_peo">人数</div>
+            </div>
+            <div class="school">
+                <img src="images/index/njligong.jpg" width="792" height="558" alt="" />
+                <span>南京理工大学</span>
+                <div class="school_peo">人数</div>
+            </div>
+            <div class="school">
+                <img src="images/index/njnongye.jpg" width="792" height="558" alt="" />
+                <span>南京农业大学</span>
+                <div class="school_peo">人数</div>
+            </div>
+            <div class="school">
+                <img src="images/index/zkd.jpg" width="992" height="558" alt="" />
+                <span>中国科学技术大学</span>
+                <div class="school_peo">人数</div>
+            </div>
+            <div class="school">
+                <img src="images/index/xiandianzi.jpg" width="792" height="558" alt="" />
+                <span>西安电子科技大学</span>
+                <div class="school_peo">人数</div>
+            </div>
+            <div class="school">
+                <img src="images/index/wuhanligong.jpg" width="792" height="558" alt="" />
+                <span>武汉理工大学</span>
+                <div class="school_peo">人数</div>
+            </div>
+            <div class="school">
+                <img src="images/index/njgongye.jpg" width="792" height="558" alt="" />
+                <span>南京工业大学</span>
+                <div class="school_peo">人数</div>
+            </div>
+            <div class="school">
+                <img src="images/index/chongqinyoudian.jpg" width="792" height="558" alt="" />
+                <span>重庆邮电大学</span>
+                <div class="school_peo">人数</div>
+            </div>
+        </div>
+    </div>
+  <!------------------------------------------------------------------------------------------------------------------------->
+
+
+<div id="bottom" align="center" style="background:url(./images/common/bottom_empty.jpg) no-repeat; height:240px; width:1580px; position:absolute; top:2000px;">
+    <div class="all">
+        <div class="b_text">
+            <h6>介绍</h6>
+            <ul>
+                <li><a href="#">关于我们</a></li>
+                <li><a href="#">联系我们</a></li>
+                <li><a href="#">加入我们</a></li>
+                <li><a href="#">技术支持</a></li>
+            </ul>
+        </div>
+        <div class="b_text">
+            <h6>合作</h6>
+            <ul>
+                <li><a href="#">新加课程</a></li>
+                <li><a href="#">高校合作</a></li>
+                <li><a href="#">友情链接</a></li>
+            </ul>
+        </div>
+        <div class="b_text">
+            <h6>服务</h6>
+            <ul>
+                <li><a href="#">在线实验</a></li>
+                <li><a href="#">注册登录</a></li>
+                <li><a href="#">实验报告</a></li>
+                <li><a href="#">实验评分</a></li>
+                <li><a href="#">常见问题</a></li>
+            </ul>
+        </div>
+        <div class="b_text">
+            <h6>学习路径</h6>
+            <ul>
+                <li><a href="#">原理介绍</a></li>
+                <li><a href="#">传感器介绍</a></li>
+                <li><a href="#">实验报告</a></li>
+                <li><a href="#">实验评分</a></li>
+            </ul>
+        </div>
+    </div>
+
+  <div class="power">COPYRIGHT@2016-2018 东南大学检测技术研究所</div>
+</div>
+
+</body>
+
+</html>
